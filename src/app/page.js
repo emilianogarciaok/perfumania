@@ -28,25 +28,24 @@ export default async function Home({ searchParams }) {
       .from("perfumania")
       .select("id, nombre, precio_venta, imagen, casa, perfil_olfativo", {
         count: "exact",
-      });
+      })
+      // FILTRO GLOBAL DE STOCK: Solo perfumes con precio mayor a 0
+      .gt("precio_venta", 0);
 
     // FILTRO DE BÚSQUEDA
     if (searchTerm) query = query.ilike("nombre", `%${searchTerm}%`);
 
-    // --- ARREGLO PARA FILTRO ESTRICTO (AND) ---
+    // --- FILTRO POR PERFIL (JSONB) ---
     if (perfilFiltro) {
-      // Convertimos el texto "Fresco,Dulce" en una lista ["Fresco", "Dulce"]
       const listaPerfiles = perfilFiltro.split(",");
-
-      // CAMBIO: Usamos 'contains' en lugar de 'overlaps'
-      // Esto le dice a Supabase: "El perfume debe contener TODAS estas etiquetas"
+      // Usamos 'contains' porque en tu DB perfil_olfativo es tipo jsonb ["Dulce"]
       query = query.contains("perfil_olfativo", listaPerfiles);
     }
 
-    // ORDENAMIENTO
+    // ORDENAMIENTO (Corregido a 'precio_venta')
     switch (sortOption) {
       case "price_asc":
-        query = query.order("precio", { ascending: true });
+        query = query.order("precio_venta", { ascending: true });
         break;
       case "price_desc":
         query = query.order("precio_venta", { ascending: false });
@@ -62,7 +61,7 @@ export default async function Home({ searchParams }) {
         break;
     }
 
-    // 3. Ejecutar consulta
+    // 3. Ejecutar consulta con paginación
     const { data, count: totalCount, error } = await query.range(start, end);
 
     if (error) throw new Error(error.message);
@@ -70,7 +69,7 @@ export default async function Home({ searchParams }) {
     products = data;
     count = totalCount;
   } catch (e) {
-    console.error("Error:", e.message);
+    console.error("Error detectado:", e.message);
     errorMsg = "Error al cargar productos.";
   }
 
@@ -89,7 +88,7 @@ export default async function Home({ searchParams }) {
       <footer className="bg-dark text-white py-12 text-center border-t border-gray-200">
         <p className="font-serif text-2xl mb-4 text-gold/80">PERFUMANIA</p>
         <p className="text-gray-500 text-xs tracking-wider">
-          © 2025 PERFUMANIA Parfums.
+          © 2026 PERFUMANIA Parfums.
         </p>
       </footer>
     </main>
