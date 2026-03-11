@@ -3,6 +3,14 @@ import Link from "next/link";
 
 const FALLBACK_URL = "https://via.placeholder.com/192x192.png?text=AURA+FOTO";
 
+function resolveImageUrl(url) {
+  if (!url) return FALLBACK_URL;
+  // Convierte links de Google Drive al formato de imagen directa
+  const match = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=)([\w-]+)/);
+  if (match) return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+  return url;
+}
+
 const TAG_COLORS = {
   Fresco: "bg-blue-100 text-blue-800 border-blue-200",
   Dulce: "bg-pink-100 text-pink-800 border-pink-200",
@@ -21,7 +29,7 @@ export default function ProductCard({
   imagen,
   perfil_olfativo = [],
 }) {
-  const imageUrl = imagen || FALLBACK_URL;
+  const imageUrl = resolveImageUrl(imagen);
 
   // 1. Detectamos stock real (mayor a 0)
   const numericPrice = Number(precio_venta);
