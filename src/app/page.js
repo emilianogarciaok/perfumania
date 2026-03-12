@@ -10,6 +10,7 @@ export default async function Home({ searchParams }) {
   const searchTerm = params?.search || "";
   const sortOption = params?.sort || "";
   const perfilFiltro = params?.perfil || "";
+  const brandFilter = params?.brand || "";
 
   const start = (currentPage - 1) * PER_PAGE;
   const end = start + PER_PAGE - 1;
@@ -25,6 +26,7 @@ export default async function Home({ searchParams }) {
       p_search: searchTerm,
       p_perfiles: listaPerfiles,
       p_sort: sortOption,
+      p_casa: brandFilter,
       p_start: start,
       p_end: end,
     });

@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from "react";
 import { Search, ChevronDown } from "lucide-react";
 import { supabase } from "../lib/supabaseClient";
 import Link from "next/link";
-import Image from "next/image";
 
 const olfactoryOptions = [
   {
@@ -52,7 +51,6 @@ export default function Filters() {
   const [searchTerm, setSearchTerm] = useState(
     searchParams.get("search") || "",
   );
-  const [brand, setBrand] = useState(searchParams.get("brand") || "");
   const [sort, setSort] = useState(searchParams.get("sort") || "");
 
   const [perfilActivo, setPerfilActivo] = useState(() => {
@@ -103,13 +101,12 @@ export default function Filters() {
   }, []);
 
   // --- FUNCIÓN HELPER PARA COMPARAR ESTADOS ---
-  const getParamsString = (search, b, s, p) => {
+  const getParamsString = (search, s, p) => {
     const pms = new URLSearchParams();
     if (search) pms.set("search", search);
-    if (b) pms.set("brand", b);
     if (s) pms.set("sort", s);
     if (p.length > 0) pms.set("perfil", p.sort().join(","));
-    pms.sort(); // Ordenar claves para comparación exacta
+    pms.sort();
     return pms.toString();
   };
 
@@ -127,17 +124,21 @@ export default function Filters() {
       // Guardamos la página actual para no perderla si no hay cambios reales
       const currentPageFromUrl = currentUrlParams.get("page") || "1";
 
-      // Limpiamos 'page' del objeto actual para comparar solo filtros
+      // Limpiamos 'page' y 'brand' (lo maneja BrandSidebar) para comparar solo nuestros filtros
       currentUrlParams.delete("page");
+      currentUrlParams.delete("brand");
       currentUrlParams.sort();
       const currentString = currentUrlParams.toString();
 
       // 2. Estado Deseado (Lo que dicen tus botones/inputs)
-      const newString = getParamsString(searchTerm, brand, sort, perfilActivo);
+      const newString = getParamsString(searchTerm, sort, perfilActivo);
 
       // 3. COMPARACIÓN: Solo actualizamos si hay diferencia real
       if (currentString !== newString) {
         const finalParams = new URLSearchParams(newString);
+        // Preservar brand de la URL (lo maneja BrandSidebar)
+        const brandFromUrl = new URLSearchParams(window.location.search).get("brand");
+        if (brandFromUrl) finalParams.set("brand", brandFromUrl);
         // Si CAMBIARON los filtros, reseteamos a página 1
         finalParams.set("page", "1");
         router.push(`/?${finalParams.toString()}`, { scroll: false });
@@ -147,7 +148,7 @@ export default function Filters() {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [searchTerm, brand, sort, perfilActivo, router]);
+  }, [searchTerm, sort, perfilActivo, router]);
 
   const currentSortLabel =
     sortOptions.find((opt) => opt.value === sort)?.label || "Ordenar por...";
