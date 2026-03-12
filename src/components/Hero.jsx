@@ -2,8 +2,7 @@ import Image from "next/image";
 import FadeIn from "./FadeIn";
 import ScrollToButton from "./ScrollToButton";
 
-const HERO_IMAGE_URL =
-  "https://drive.google.com/uc?export=view&id=1amRCWbaUpRKinNFvoxkRCJsqxpiId8sH";
+const HERO_IMAGE_URL = "/hero.jpeg";
 
 const Hero = () => {
   return (
@@ -21,7 +20,7 @@ const Hero = () => {
       </div>
 
       {/* Botón abajo */}
-      <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
         <FadeIn>
           <ScrollToButton targetId="catalogo" />
         </FadeIn>
