@@ -43,7 +43,7 @@ export default function ProductCard({
     : "Sin Stock";
 
   return (
-    <div className="group bg-white p-3 text-center border border-transparent hover:shadow-lg hover:border-gray-100 transition-all duration-300 flex flex-col h-[340px] w-full rounded-lg shadow-sm border-gray-50 relative">
+    <div className="group bg-white p-3 text-center border border-gray-50 hover:shadow-lg hover:border-gray-100 transition-all duration-300 flex flex-col h-[340px] w-full rounded-lg shadow-sm relative">
       {/* Área de la Imagen con efecto de stock */}
       <div className="h-36 bg-white mb-2 rounded-md flex items-center justify-center relative shrink-0 overflow-hidden">
         <div
