@@ -1,5 +1,6 @@
 import { Playfair_Display, Montserrat } from "next/font/google";
 import "./globals.css";
+import Navbar from "../components/Navbar";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 const montserrat = Montserrat({ subsets: ["latin"] });
@@ -12,6 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <body className={`${playfair.className} ${montserrat.className}`}>
+        <Navbar />
         {children}
         <a
           href="https://wa.me/5493885178485"
