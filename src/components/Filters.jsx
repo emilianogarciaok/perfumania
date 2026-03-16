@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { Search, ChevronDown } from "lucide-react";
 import { supabase } from "../lib/supabaseClient";
 import Link from "next/link";
+import Image from "next/image";
 
 const olfactoryOptions = [
   {
