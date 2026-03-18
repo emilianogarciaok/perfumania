@@ -63,20 +63,24 @@ export default function BrandSidebar() {
             <button
               key={casa.value}
               onClick={() => handleBrandClick(casa.value)}
-              className={`shrink-0 relative w-18 h-12 rounded-lg border overflow-hidden transition-all duration-200
+              className={`shrink-0 flex flex-col items-center gap-1 py-1.5 px-2 rounded-lg border transition-all duration-200
                 ${brand === casa.value
                   ? "border-gray-900 ring-2 ring-yellow-500/50 shadow-md bg-white"
                   : "border-gray-200 bg-white opacity-60"
                 }`}
-              title={casa.value}
             >
-              <Image
-                src={casa.logo}
-                alt={casa.value}
-                fill
-                className="object-contain p-1"
-                sizes="72px"
-              />
+              <div className="relative w-14 h-8">
+                <Image
+                  src={casa.logo}
+                  alt={casa.value}
+                  fill
+                  className="object-contain"
+                  sizes="56px"
+                />
+              </div>
+              <span className="text-[8px] text-gray-400 font-medium leading-tight truncate max-w-16">
+                {casa.value}
+              </span>
             </button>
           ))}
         </div>
@@ -102,20 +106,24 @@ export default function BrandSidebar() {
             <button
               key={casa.value}
               onClick={() => handleBrandClick(casa.value)}
-              className={`relative h-14 rounded-lg border overflow-hidden transition-all duration-200
+              className={`flex flex-col items-center gap-1 py-2 rounded-lg border transition-all duration-200
                 ${brand === casa.value
                   ? "border-gray-900 ring-2 ring-offset-1 ring-yellow-500/50 shadow-md bg-white"
                   : "border-gray-200 bg-white opacity-60 hover:opacity-100 hover:border-gray-400"
                 }`}
-              title={casa.value}
             >
-              <Image
-                src={casa.logo}
-                alt={casa.value}
-                fill
-                className="object-contain p-1.5"
-                sizes="104px"
-              />
+              <div className="relative w-full h-10">
+                <Image
+                  src={casa.logo}
+                  alt={casa.value}
+                  fill
+                  className="object-contain px-1.5"
+                  sizes="104px"
+                />
+              </div>
+              <span className="text-[8px] text-gray-400 font-medium leading-tight truncate w-full px-1 text-center">
+                {casa.value}
+              </span>
             </button>
           ))}
         </div>
